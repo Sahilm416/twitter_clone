@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@600&display=swap');
+
+
+#h1 {
+    font-family: 'Kanit', sans-serif;
+}
+
+#feed::-webkit-scrollbar {
+    display: none;
+}
+
+
+
+.lds {
+    display: inline-block;
+    width: 45px;
+    height: 45px;
+  }
+  .lds:after {
+    content: " ";
+    display: block;
+    width: 45px;
+    height: 45px;
+    margin: 0px;
+    border-radius: 50%;
+    border: 6px solid rgba(59,130,246);
+    border-color: rgba(59,130,246) transparent rgba(59,130,246) transparent;
+    animation: lds 1.2s linear infinite;
+  }
+  @keyframes lds {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+ .area::-webkit-scrollbar {
+    display: none;
+ }
+
+
+
+
+
+
+
+
+ .heart {
+    cursor: pointer;
+    height: 50px;
+    width: 50px;
+    background-image:url( 'https://abs.twimg.com/a/1446542199/img/t1/web_heart_animation.png');
+    background-position: left;
+    background-repeat:no-repeat;
+    background-size:2900%;
+  }
+  
+  .heart:hover {
+    background-position:right;
+  }
+  
+  .is_animating {
+    animation: heart-burst .8s steps(28) 1;
+  }
+  
+  @keyframes heart-burst {
+    from {background-position:left;}
+    to { background-position:right;}
+  }
