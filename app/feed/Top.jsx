@@ -14,7 +14,7 @@ const path = usePathname();
           background: "rgba(22,24,28,0.25)",
           backdropFilter: "blur(8px)",
         }}
-        className="flex sticky top-0 z-50 gap-[10px]  flex-col w-full "
+        className="flex sticky top-0 z-30 gap-[10px]  flex-col w-full "
       >
         <div className={"sticky w-full h-[30px] flex justify-start"} >
           <p className={"text-slate-300 text-lg p-2 font-semibold"}>Home</p>

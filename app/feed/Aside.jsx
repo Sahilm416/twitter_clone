@@ -27,7 +27,7 @@ const Aside = () => {
 
   return (
     <>
-      <aside className=" flex flex-col justify-start items-start md:max-w-[300px] h-[100vh] border-e-[1px] border-slate-500 mt-0">
+      <aside className=" sm:flex hidden flex-col justify-start items-start md:max-w-[300px] h-[100vh] border-e-[1px] border-slate-500 mt-0">
         <button className="mb-3 mt-5">
           <svg
             className="ml-10 fill-white sm:w-[30px] w-[70px] select-none  r-k200y r-1nao33i r-4qtqp9 r-yyyyoo r-5sfk15 r-dnmrzs r-kzbkwu r-bnwqim r-1plcrui r-lrvibr"
@@ -55,7 +55,7 @@ const Aside = () => {
         </div>
 
         <div onClick={()=> { setOpen(!open) }} className=" flex w-[280px] gap-4 cursor-pointer px-2 hover:bg-slate-900 rounded-[30px] py-2 items-center justify-between fixed bottom-[20px]">
-           <UserImage w={45} h={45}/>
+           <UserImage w={45} h={45} src={auth?.currentUser?.photoURL} />
             <div className="flex flex-col ">
                 <p className="text-slate-500">{auth?.currentUser?.displayName}</p>
                 <p className="text-slate-500 text-xs">{auth?.currentUser?.email}</p>

@@ -5,7 +5,7 @@ import { auth } from "../config/firebase";
 const Feed = () => {
   return (
     <>
-      <div id={Style.feed} className="flex flex-col justify-start overflow-y-scroll items-center h-screen bg-black w-[500px]">
+      <div id={Style.feed} className="flex flex-col justify-start overflow-y-scroll items-center h-screen bg-black sm:w-[600px] w-[400px]">
         
           <InputTweet />
           <PostedTweet

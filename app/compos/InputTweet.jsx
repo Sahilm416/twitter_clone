@@ -42,10 +42,10 @@ const tweet = async () =>{
       try{
         if(selectedImage === null)
         {
-          console.log(" image not there")
+          
         }
         else{
-          console.log(" entereddd")
+         
           const refer = ref(storage,`images/${selectedImage.name + v4() }`);
   
         const res = await uploadBytes(refer,selectedImage);
@@ -65,8 +65,8 @@ const tweet = async () =>{
          })
          setContent("");
          setSelectedImage(null);
-        setTweeted();
-        console.log(tweeted);
+         setTweeted();
+       
          
 
       }
@@ -95,7 +95,7 @@ const tweet = async () =>{
     <div className="w-full p-0 m-0">
       <div className="p-4 border-y-[0.5px] w-full border-slate-600 shadow-md">
         <div className="flex items-start">
-          <Link href='/feed/profile'><UserImage w={45} h={45} /></Link>
+          <Link href='/feed/profile'><UserImage w={45} h={45} src={auth?.currentUser?.photoURL} /></Link>
           <div className="flex-1">
             <textarea
               className="w-full p-2 text-lg placeholder-gray-400 bg-transparent resize-none focus:outline-none"

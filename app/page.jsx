@@ -1,6 +1,7 @@
 "use client";
 import Style from "./font.module.css";
-import { auth } from "./config/firebase";
+import { auth,db } from "./config/firebase";
+import { getDocs,getDoc,addDoc, collection } from "firebase/firestore";
 import { GoogleAuthProvider,onAuthStateChanged } from "firebase/auth";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { useRouter } from "next/navigation";
@@ -9,7 +10,7 @@ import { useEffect, useState } from "react";
 
 export default function Login() {
   const router = useRouter();
-
+const refer = collection(db,"Users");
   const { isLoggedIn, setTrue } = useStore();
   const googleProvider = new GoogleAuthProvider(auth);
   useStore.subscribe((state) => {
@@ -41,12 +42,32 @@ export default function Login() {
       const user = result.user;
       console.log(user);
       setTrue();
-
+         await LoadUser();
       router.push("/feed");
     } catch (err) {
       console.log(err);
     }
   };
+
+   const LoadUser = async ()=>{
+           const res = await getDocs(refer);
+           const filter = res.docs.map((doc)=>({
+            ...doc.data(),
+            id: doc.id,
+           })
+           )
+
+           filter.map((user)=>{
+            if(user.Email === auth.currentUser.email)
+            {
+             
+            }
+               else{
+
+               }
+           })
+   }
+
 
   return (
     <>
