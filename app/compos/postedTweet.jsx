@@ -21,17 +21,20 @@ const PostedTweet = ()=>{
   
   const storeRef = collection(db,"Tweets");
   const [tweets,setTweets] = useState([]);
+  const {tweeted} = useStore()
 
-  onSnapshot(storeRef,(posts)=>{
-       const filter = posts.docs.map((doc)=>({
-        ...doc.data(),
-        id: doc.id,
-        isLiked: doc.data().LikedBy.includes(auth?.currentUser?.email)
-       }))
-       setTweets(filter);
-     
-     
-  })
+  useEffect(()=>{
+    onSnapshot(storeRef,(posts)=>{
+      const filter = posts.docs.map((doc)=>({
+       ...doc.data(),
+       id: doc.id,
+       isLiked: doc.data().LikedBy.includes(auth?.currentUser?.email)
+      }))
+      setTweets(filter);
+    
+    
+ })
+  },[tweeted])
 
   return(<>
     {tweets?.map((post,index)=>{ 

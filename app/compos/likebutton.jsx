@@ -11,16 +11,16 @@ import { useStore } from "../store";
 function Like({ isLiked, count,id }) {
 
  
-  const [liked,setLiked] = useState(isLiked);
+ 
   
-
+  const {setTweeted} = useState();
  
 const LikeTweet = async (count,id,isLiked)=>{
   const docRef = doc(db,"Tweets",id);
   if(isLiked)
   {
   
-    setLiked(false);
+   
    
       await updateDoc(docRef,{
       LikeCount: (count - 1 >= 0 ) ? count - 1 : 0,
@@ -31,15 +31,15 @@ const LikeTweet = async (count,id,isLiked)=>{
   }
   else{
     
-    setLiked(true);
+
     await updateDoc(docRef,{
       LikeCount: count + 1,
       LikedBy: arrayUnion(auth.currentUser.email),
     })
    
-    
+   
   }
-
+ 
 
 
 }
@@ -57,7 +57,7 @@ const LikeTweet = async (count,id,isLiked)=>{
           <div
             className={` stroke-slate-300 hover:stroke-[rgba(254,24,128)]`}
             style={{
-              fill: `${liked ? "rgba(254,24,128)" : "none"}`,
+              fill: `${isLiked ? "rgba(254,24,128)" : "none"}`,
             }}
           >
             <div className=" flex justify-center items-center w-[30px] h-[30px]">
