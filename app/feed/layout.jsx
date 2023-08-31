@@ -7,10 +7,14 @@ import { useStore } from "../store";
 import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/navigation";
-
+import { usePathname } from "next/navigation";
+import TopPost from "../compos/Top-Post";
 export default function FeedLayOut({ children }) {
   const { setTrue, setFalse, isLoggedIn } = useStore();
   const router = useRouter();
+  const path = usePathname();
+
+  const check = path === "/feed/post"
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -32,7 +36,7 @@ export default function FeedLayOut({ children }) {
      
         <Aside />
           <div className="flex flex-col h-[100vh]">
-               <Top/>
+               {check ? <TopPost/> : <Top/>}
               {children}
           </div>
         <Right />

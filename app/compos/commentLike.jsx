@@ -7,12 +7,13 @@ import {
   doc,
   arrayUnion,
   arrayRemove,
+  getDoc,
   
 } from "firebase/firestore";
 import Image from "next/image";
 import { toast } from "react-toastify";
 
-function Like({ isLiked, count, id, post }) {
+function CommentLike({ isLiked, count, id, post,index }) {
   const [modal, setModal] = useState(false);
   const [replyPost,setReply] = useState("");
   const docRef = doc(db, "Tweets", id);
@@ -29,7 +30,6 @@ function Like({ isLiked, count, id, post }) {
             Replyuid: auth.currentUser.uid,
             LikeCount: 0,
             LikedBy: [],
-            isLiked: post.LikedBy.includes(auth?.currentUser?.email),
             })
           })
           setReply("");
@@ -54,24 +54,50 @@ function Like({ isLiked, count, id, post }) {
  }
 
 
-  const LikeTweet = async (count, id, isLiked) => {
-   
-    try {
+ const LikeComment = async (count, id, isLiked) => {
+    
+    const docSnapshot = await getDoc(docRef);
+  
+    if (docSnapshot.exists()) {
+      const replies = docSnapshot.data().reply;
+      const replyToUpdate = replies[index];
+  
+      const updatedLikedBy = replyToUpdate.LikedBy.slice(); 
+  
       if (isLiked) {
-        await updateDoc(docRef, {
-          LikeCount: count - 1 >= 0 ? count - 1 : 0,
-          LikedBy: arrayRemove(auth.currentUser.email),
-        });
+        replyToUpdate.LikeCount = count - 1;
+        const indexToRemove = updatedLikedBy.indexOf(auth.currentUser.email);
+        if (indexToRemove !== -1) {
+          updatedLikedBy.splice(indexToRemove, 1);
+        }
       } else {
-        await updateDoc(docRef, {
-          LikeCount: count + 1,
-          LikedBy: arrayUnion(auth.currentUser.email),
-        });
+        replyToUpdate.LikeCount = count + 1;
+        updatedLikedBy.push(auth.currentUser.email);
       }
-    } catch (err) {
-      console.log(err);
+  
+      replyToUpdate.LikedBy = updatedLikedBy;
+  
+      try {
+        await updateDoc(docRef, {
+          reply: replies,
+        });
+  
+        
+      } catch (err) {
+        console.error("Error updating likes:", err);
+      }
+    } else {
+      console.error("Document not found");
     }
   };
+  
+  
+ 
+  
+  
+  
+  
+  
 
   return (
     <div className=" flex  justify-between items-center">
@@ -79,7 +105,7 @@ function Like({ isLiked, count, id, post }) {
         {/*" fill-[rgba(254,24,128)]" */}
         <button
           onClick={() => {
-            LikeTweet(count, id, isLiked);
+            LikeComment(count, id, isLiked);
           }}
           className=" bg-transparent gap-2 flex justify-center items-center rounded-full hover:bg-[rgba(249,24,128,0.2)] "
         >
@@ -102,17 +128,7 @@ function Like({ isLiked, count, id, post }) {
           {count}
         </p>
       </div>
-      <div className="m-1 rounded-full w-[30px] h-[30px] hover:bg-[rgba(27,132,78,0.5)] flex justify-center items-center">
-        <svg
-          className=" w-[20px] fill-slate-400 hover:fill-white"
-          viewBox="0 0 24 24"
-          aria-hidden="true"
-        >
-          <g>
-            <path d="M4.5 3.88l4.432 4.14-1.364 1.46L5.5 7.55V16c0 1.1.896 2 2 2H13v2H7.5c-2.209 0-4-1.79-4-4V7.55L1.432 9.48.068 8.02 4.5 3.88zM16.5 6H11V4h5.5c2.209 0 4 1.79 4 4v8.45l2.068-1.93 1.364 1.46-4.432 4.14-4.432-4.14 1.364-1.46 2.068 1.93V8c0-1.1-.896-2-2-2z"></path>
-          </g>
-        </svg>
-      </div>
+      
       {/*  comment button  */}
       <div
         onClick={() => setModal(true)}
@@ -127,7 +143,7 @@ function Like({ isLiked, count, id, post }) {
             <path d="M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 8.129 3.64 8.129 8.13 0 2.96-1.607 5.68-4.196 7.11l-8.054 4.46v-3.69h-.067c-4.49.1-8.183-3.51-8.183-8.01zm8.005-6c-3.317 0-6.005 2.69-6.005 6 0 3.37 2.77 6.08 6.138 6.01l.351-.01h1.761v2.3l5.087-2.81c1.951-1.08 3.163-3.13 3.163-5.36 0-3.39-2.744-6.13-6.129-6.13H9.756z"></path>
           </g>
         </svg>
-        <p className=" cursor-pointer text-slate-400 hover:text-violet-700">{post?.reply?.length}</p>
+        <p className=" cursor-pointer text-slate-400 hover:text-violet-700"></p>
       </div>
       <div className="m-1 rounded-full w-[30px] h-[30px] hover:bg-[rgba(27,132,78,0.5)] flex justify-center items-center">
         <svg
@@ -178,17 +194,17 @@ function Like({ isLiked, count, id, post }) {
                 className=" rounded-full"
                 width={45}
                 height={45}
-                src={post.ProfileUrl}
+                src={post.ReplyProfile}
                 alt="image"
               />
               <span className="h-full w-[3px] bg-slate-600"></span>
             </div>
             <div className=" w-full ">
               <p className=" cursor-pointer flex justify-start items-center h-[50px] w-[100px] text-slate-500 font-semibold hover:underline">
-                {post.UserName}
+                {post.ReplyUser}
               </p>
 
-              <div className="py-1 max-h-[80px] overflow-y-auto my-1">{post.Body}</div>
+              <div className="py-1 max-h-[80px] overflow-y-auto my-1">{post.ReplyBody}</div>
             </div>
           </div>
 
@@ -225,4 +241,4 @@ function Like({ isLiked, count, id, post }) {
   );
 }
 
-export default Like;
+export default CommentLike;

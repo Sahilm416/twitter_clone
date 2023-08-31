@@ -22,8 +22,7 @@ const refer = collection(db,"Users");
       if (user) {
         // User is signed in.
         setTrue();
-        console.log("user is " + isLoggedIn)
-        console.log(auth.currentUser.email);
+        
         router.push('/feed');
       } else {
         // User is signed out.
@@ -38,9 +37,9 @@ const refer = collection(db,"Users");
   const signInGoogle = async () => {
     
     try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const user = result.user;
-      console.log(user);
+      await signInWithPopup(auth, googleProvider);
+      
+      
       setTrue();
          await LoadUser();
       router.push("/feed");

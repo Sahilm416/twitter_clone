@@ -3,7 +3,7 @@ import React from 'react'
 
 const Following = () => {
   return (
-    <div className='w-[500px]'>
+    <div className='sm:w-[600px] w-[400px]'>
          <InputTweet />
     </div>
   )

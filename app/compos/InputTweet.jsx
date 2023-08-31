@@ -7,7 +7,7 @@ import { storage ,db, auth } from "../config/firebase";
 import { getDocs , getDoc , addDoc ,collection} from "firebase/firestore";
 import { v4 } from "uuid";
 import { ref,uploadBytes,getDownloadURL} from "firebase/storage";
-
+import { toast } from "react-toastify";
 
 
 
@@ -38,7 +38,7 @@ const tweet = async () =>{
  
      if(content.length > 1 )
      { 
-      console.log(selectedImage);
+      
       try{
         if(selectedImage === null)
         {
@@ -66,6 +66,11 @@ const tweet = async () =>{
          setContent("");
          setSelectedImage(null);
          setTweeted();
+         toast("Tweet posted successfully ",{
+          type: 'success',
+          autoClose: 3000
+
+        })
        
          
 
