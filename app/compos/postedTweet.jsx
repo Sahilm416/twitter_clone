@@ -1,6 +1,6 @@
 // components/PostedTweet.js
 "use client";
-
+import { motion ,AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { auth, db } from "../config/firebase";
@@ -33,7 +33,7 @@ const PostedTweet = () => {
   }, []);
 
   return (
-    <div className=" relative sm:w-[600px] w-[400px]">
+    <motion.div  initial={{opacity: 0 ,dur: 1}} whileInView={{opacity: 1, dur: 1}} className=" relative sm:w-[600px] w-[400px]">
       {tweets?.map((post, index) => {
         return (
           <div  key={index}>
@@ -60,7 +60,8 @@ const PostedTweet = () => {
                   {post.ImageUrl === null ? (
                     <></>
                   ) : (
-                    
+                    <AnimatePresence >
+                      <motion.div initial={{opacity: 0, dur: 1}} animate={{opacity: 1}}>
                       <Image
                         className=" rounded-sm w-full h-auto mr-2"
                         width={500}
@@ -68,6 +69,8 @@ const PostedTweet = () => {
                         src={post.ImageUrl}
                         alt="image"
                       />
+                      </motion.div>
+                      </AnimatePresence>
                    
                   )}
                 </div>
@@ -85,7 +88,7 @@ const PostedTweet = () => {
           </div>
         );
       })}
-    </div>
+    </motion.div>
   );
 };
 

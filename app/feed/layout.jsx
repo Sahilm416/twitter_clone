@@ -10,11 +10,11 @@ import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import TopPost from "../compos/Top-Post";
 export default function FeedLayOut({ children }) {
-  const { setTrue, setFalse, isLoggedIn } = useStore();
+  const { setTrue, setFalse} = useStore();
   const router = useRouter();
   const path = usePathname();
 
-  const check = path === "/feed/post"
+  const check = path.includes("/feed/post/") || path.includes("/feed/profile")
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {

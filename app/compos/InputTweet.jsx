@@ -8,13 +8,14 @@ import { getDocs , getDoc , addDoc ,collection} from "firebase/firestore";
 import { v4 } from "uuid";
 import { ref,uploadBytes,getDownloadURL} from "firebase/storage";
 import { toast } from "react-toastify";
-
+import Loader from "./loader";
 
 
 const InputTweet = () => {
  
   const [content, setContent] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
+  const [loading,setLoading] = useState(false);
   let url = null;
   const {tweeted,setTweeted} = useStore();
 
@@ -35,7 +36,7 @@ const InputTweet = () => {
   };
 
 const tweet = async () =>{
- 
+   setLoading(true);
      if(content.length > 1 )
      { 
       
@@ -78,13 +79,16 @@ const tweet = async () =>{
       catch(err)
       {
         console.log(err);
+        setLoading(false);
+        toast("something went wrong ! ",{
+          type: 'error',
+          autoClose: 3000
+
+        })
       }
      }
-     else {
-      return
-     }
 
-
+     setLoading(false);
 }
 
 
@@ -136,13 +140,17 @@ const tweet = async () =>{
                 onChange={handleImageChange}
                 id="fileInput"
               />
-              <button onClick={tweet} className="bg-blue-500 text-white rounded-full px-6 py-2 hover:bg-blue-600 focus:outline-none">
+              <button onClick={tweet} className={"bg-blue-500 text-white rounded-full px-6 py-2 hover:bg-blue-600 focus:outline-none"}>
                 Tweet
               </button>
             </div>
           </div>
         </div>
       </div>
+      {loading && <div className="w-[100vw] top-0 right-0 z-50 h-[100vh] flex gap-10 flex-col justify-center items-center bg-[rgba(1,1,1,0.90)] absolute">
+               <Loader />
+               <p className="text-white text-center">Posting the Tweet...</p>
+      </div>}
     </div>
   );
 };

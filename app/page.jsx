@@ -13,16 +13,32 @@ export default function Login() {
 const refer = collection(db,"Users");
   const { isLoggedIn, setTrue } = useStore();
   const googleProvider = new GoogleAuthProvider(auth);
-  useStore.subscribe((state) => {
-    console.log("sub just now and isloggedIn is " + state.isLoggedIn);
-  });
+
   useEffect(() => {
     
-    const unsubscribe = onAuthStateChanged(auth,(user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        // User is signed in.
-        setTrue();
         
+        setTrue();
+
+        const res = await getDocs(refer);
+        const users = res.docs.map((doc)=> ({
+          ...doc.data(),
+          id: doc.id
+        }))
+        const check = users.find((user)=> user.UserEmail === auth.currentUser.email)
+        if(check === undefined)
+        {
+          await addDoc(refer,{
+            UserName: auth.currentUser.displayName,
+            UserEmail: auth.currentUser.email,
+            UserProfile: auth.currentUser.photoURL,
+            UserBio: "",
+            UserId: auth.currentUser.uid
+          
+          })
+        }
+        console.log(check)
         router.push('/feed');
       } else {
         // User is signed out.
@@ -41,31 +57,13 @@ const refer = collection(db,"Users");
       
       
       setTrue();
-         await LoadUser();
+        
       router.push("/feed");
     } catch (err) {
       console.log(err);
     }
   };
 
-   const LoadUser = async ()=>{
-           const res = await getDocs(refer);
-           const filter = res.docs.map((doc)=>({
-            ...doc.data(),
-            id: doc.id,
-           })
-           )
-
-           filter.map((user)=>{
-            if(user.Email === auth.currentUser.email)
-            {
-             
-            }
-               else{
-
-               }
-           })
-   }
 
 
   return (

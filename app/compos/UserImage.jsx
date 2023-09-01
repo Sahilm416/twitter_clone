@@ -15,9 +15,9 @@ const UserImage = ({w,h,src}) => {
   const width = w + "px";
   return (
     <>
-       {isLoggedIn ? <div className={`bg-black cursor-pointer hover:shadow-sm rounded-full flex justify-center items-center w-[${width}] h-[${height}]`}>
-       {src === null ? <Loader/> : <Image className='rounded-full' src={src} width={w} height={h} alt='profile-image' />}
-       </div> : <></>}
+      <div className={`bg-black cursor-pointer hover:shadow-sm rounded-full flex justify-center items-center w-[${width}] h-[${height}]`}>
+       {src === null || src === undefined ? <Loader/> : <Image className='rounded-full' src={src} width={w} height={h} alt='profile-image' />}
+       </div>
     </>
   )
 }

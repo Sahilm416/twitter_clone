@@ -11,6 +11,7 @@ import {
 } from "firebase/firestore";
 import Image from "next/image";
 import { toast } from "react-toastify";
+import { motion } from "framer-motion";
 
 function Like({ isLiked, count, id, post }) {
   const [modal, setModal] = useState(false);
@@ -154,8 +155,8 @@ function Like({ isLiked, count, id, post }) {
       </div>
 
       {modal && (
-        <div
-          className="w-[100vw] h-[100vh] fixed top-[0px] overflow-hidden right-0 bg-[rgba(1,1,1,0.30)] z-40 flex justify-center gap-0 px-2  items-center"
+        <motion.div  initial={{opacity: 0 ,dur: 1}} whileInView={{opacity: 1}}
+          className="w-[100vw] h-[100vh] fixed top-[0px] overflow-hidden right-0 bg-[rgba(1,1,1,0.30)] z-40 flex justify-center gap-0 px-2  sm:items-center items-end"
           style={{ backdropFilter: "blur(5px)" }}
         >
           <div className="flex-col justify-center gap-0 px-2  items-center pl-2 bg-black">
@@ -219,7 +220,7 @@ function Like({ isLiked, count, id, post }) {
             </div>
           </div>
           </div>
-        </div>
+        </motion.div>
       )}
     </div>
   );

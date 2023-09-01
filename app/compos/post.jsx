@@ -4,7 +4,7 @@ import React from 'react'
 import UserImage from './UserImage';
 import Image from 'next/image';
 
-
+import { motion } from 'framer-motion';
 
 const post = ({post}) => {
 
@@ -15,7 +15,7 @@ const post = ({post}) => {
 
   return (
     <>
-        <div
+        <motion.div  initial={{opacity: 0 ,dur: 1}} whileInView={{opacity: 1}}
               
               className="  cursor-pointer flex gap-2  h-auto w-full p-2 "
             >
@@ -48,7 +48,7 @@ const post = ({post}) => {
                   )}
                 </div>
               </div>
-            </div>
+            </motion.div>
             
     </>
   )

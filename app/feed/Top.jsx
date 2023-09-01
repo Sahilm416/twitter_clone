@@ -10,10 +10,6 @@ const path = usePathname();
   return (
     <>
       <div
-        style={{
-          background: "rgba(22,24,28,0.25)",
-          backdropFilter: "blur(8px)",
-        }}
         className="flex sticky top-0 z-30 gap-[10px]  flex-col w-full "
       >
         <div className={"sticky w-full h-[30px] flex justify-start"} >

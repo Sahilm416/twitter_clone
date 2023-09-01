@@ -9,7 +9,7 @@ import CommentLike from "@/app/compos/commentLike";
 import LikeButton from "@/app/compos/likebutton";
 import Image from "next/image";
 import UserImage from "@/app/compos/UserImage";
-
+import { motion } from 'framer-motion';
 
 
 
@@ -67,7 +67,7 @@ const PostPage = ({ params }) => {
         {openReply ? <>  {reply.map((rep,index)=>{
 
 return (
-  <div key={index}>
+  <motion.div initial={{opacity: 0 ,dur: 1}} whileInView={{opacity: 1}} key={index}>
       <div  className="  cursor-pointer flex gap-2  h-auto w-full p-2 " >
        <div className=" flex flex-col justify-start items-center w-[50px] p-1 ">
       <UserImage w={45} h={45} src={rep.ReplyProfile} />
@@ -90,7 +90,7 @@ return (
     <div className="p-1 pl-[55px] my-2 border-b-[0.5px] border-slate-600">
     <CommentLike count={rep.LikeCount} post={rep} isLiked={rep.isLiked} id={post.id} index={index} />
     </div>
-  </div>
+  </motion.div>
 )
 })}  </> : <></> }
       </div>
