@@ -27,7 +27,7 @@ const PostPage = ({ params }) => {
           isLiked: doc.data().LikedBy.includes(auth?.currentUser?.email),
         }));
         const tweet = filter.find((doc) => doc.id === params.id);
-        const resReply = tweet.reply;
+        const resReply = tweet?.reply;
         const finalReply = resReply.map((doc) => ({
           ...doc,
           isLiked: doc.LikedBy.includes(auth.currentUser.email),
