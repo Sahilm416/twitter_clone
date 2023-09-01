@@ -156,7 +156,7 @@ function Like({ isLiked, count, id, post }) {
 
       {modal && (
         <motion.div  initial={{opacity: 0 ,dur: 1}} whileInView={{opacity: 1}}
-          className="w-[100vw] h-[100vh] fixed top-[0px] overflow-hidden right-0 bg-[rgba(1,1,1,0.30)] z-40 flex justify-center gap-0 px-2  sm:items-center items-end"
+          className="w-[100vw] h-[100vh] fixed top-[0px] overflow-hidden right-0 bg-[rgba(1,1,1,0.30)] z-40 flex justify-center gap-0 px-2 items-center"
           style={{ backdropFilter: "blur(5px)" }}
         >
           <div className="flex-col justify-center gap-0 px-2  items-center pl-2 bg-black">
