@@ -15,7 +15,7 @@ const path = usePathname();
         <div className={"sticky w-full h-[30px] flex justify-start"} >
           <p className={"text-slate-300 text-lg p-2 font-semibold"}>Home</p>
         </div>
-        <div className="flex w-full">
+        <div className="flex w-full bg-black">
           <Link
             href="/feed"
             className={"w-[50%] border-b-[1px] border-slate-400 flex justify-center items-end h-[40px] text-slate-300 hover:bg-[rgba(22,24,28)]"} 
